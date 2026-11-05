@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RC PILOT</title>
+<style>
+  :root {
+    --bg: #0f1216; --card: #171c22; --line: #2a323b; --text: #e8edf2; --sub: #8d99a6;
+    --go: #3fb950; --warn: #f85149; --key: #232a33;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 "Malgun Gothic", system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 20px 48px; display: grid; gap: 16px; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: .04em; }
+  h1 small { font-size: 12px; font-weight: 400; color: var(--sub); letter-spacing: 0; margin-left: 8px; }
+  h2 { margin: 0; font-size: 15px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  button { font: inherit; color: var(--text); background: var(--key); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--sub); }
+  button:disabled { opacity: .45; cursor: default; }
+  #connect { background: #1f6feb; border-color: #1f6feb; font-weight: 700; padding: 10px 18px; }
+  #connect.on { background: var(--key); border-color: var(--go); color: var(--go); }
+  #link { color: var(--sub); }
+  #status { margin: 10px 0 0; color: var(--sub); min-height: 1.5em; }
+  #status.warn { color: var(--warn); font-weight: 700; }
+
+  .keys { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .left { display: flex; gap: 8px; }
+  .arrows { display: grid; grid-template-columns: repeat(3, 84px); gap: 8px; }
+  .key { background: var(--key); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px; width: 84px; height: 68px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: background .05s; }
+  .key b { font-size: 18px; line-height: 1.2; }
+  .key span { font-size: 11px; line-height: 1.25; color: var(--sub); }
+  .key.wide { width: 96px; }
+  .key.on { background: #1d4f2b; border-color: var(--go); }
+  .key.on span { color: var(--text); }
+  .up { grid-column: 2; }
+  .arrows .key:not(.up) { grid-row: 2; }
+  .hint { margin: 12px 0 0; color: var(--sub); font-size: 13px; }
+
+  #settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 24px; margin-top: 14px; }
+  #settings label { display: block; }
+  #settings .name { display: flex; justify-content: space-between; }
+  #settings b { font-variant-numeric: tabular-nums; }
+  #settings input { width: 100%; margin: 6px 0 2px; accent-color: var(--go); }
+  #settings input:disabled { opacity: .35; }
+  #settings small { color: var(--sub); }
+</style>
+</head>
+<body>
+<main>
+  <h1>RC PILOT<small>v1 · 2026-11-05</small></h1>
+
+  <section class="card">
+    <div class="row">
+      <button id="connect">차량 연결</button>
+      <span id="link">연결 안 됨</span>
+    </div>
+    <p id="status">차 전원을 켜고 "차량 연결"을 누르세요. 크롬이나 엣지에서 열어야 해요.</p>
+  </section>
+
+  <section class="card">
+    <div class="keys">
+      <div class="left">
+        <div class="key wide" data-code="Shift"><b>Shift</b><span>감속</span></div>
+        <div class="key" id="keyZ"><b>Z</b><span>살짝 왼쪽</span></div>
+        <div class="key" id="keyX"><b>X</b><span>살짝 오른쪽</span></div>
+        <div class="key" id="keyC"><b>C</b><span>180° 회전</span></div>
+      </div>
+      <div class="arrows">
+        <div class="key up" data-code="ArrowUp"><b>↑</b><span>최고 속도</span></div>
+        <div class="key" data-code="ArrowLeft"><b>←</b><span>왼쪽 꺾기</span></div>
+        <div class="key" data-code="ArrowDown"><b>↓</b><span>브레이크·후진</span></div>
+        <div class="key" data-code="ArrowRight"><b>→</b><span>오른쪽 꺾기</span></div>
+      </div>
+    </div>
+    <p class="hint">달릴 때 ←→는 부드럽게 꺾고, 멈춰 있을 때는 제자리에서 돌아요. 손을 떼면 바로 멈춰요. Esc는 모든 키를 놓아요.</p>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <h2>세팅 <small style="font-weight:400;color:var(--sub)">차에 저장돼요. 연결하면 값이 보여요.</small></h2>
+      <button id="defaults" disabled>기본값으로</button>
+    </div>
+    <div id="settings"></div>
+  </section>
+</main>
+<script src="pilot.js?v=1"></script>
+</body>
+</html>
